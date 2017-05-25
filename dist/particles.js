@@ -57,6 +57,8 @@ var Particles = (function(window, document) {
 
     _.options = _._extend(_.defaults, settings);
     _.options.color = ((settings.color) ? _._hex2rgb(settings.color) : _._hex2rgb(_.defaults.color));
+    // falls back to _.options.color if not provided.
+    _.options.connectColor = ((settings.connectColor) ? _._hex2rgb(settings.connectColor) : _.options.color);
     _.originalSettings = JSON.parse(JSON.stringify(_.options));
 
     _._initializeCanvas();
@@ -142,7 +144,11 @@ var Particles = (function(window, document) {
 
         if(responsiveSettings.hasOwnProperty(breakpoint)) {
           if(responsiveSettings[breakpoint].options.color) {
-            responsiveSettings[breakpoint].options.color = _._hex2rgb(responsiveSettings[breakpoint].options.color);
+            responsiveSettings[breakpoint].options.color = responsiveSettings[breakpoint].options.connectColor = _._hex2rgb(responsiveSettings[breakpoint].options.color);
+          }
+
+          if(responsiveSettings[breakpoint].options.connectColor) {
+            responsiveSettings[breakpoint].options.connectColor = _._hex2rgb(responsiveSettings[breakpoint].options.connectColor);
           }
 
           while(l >= 0) {
@@ -322,7 +328,7 @@ var Particles = (function(window, document) {
       
       if(n <= _.options.minDistance) {
         _.context.beginPath();
-        _.context.strokeStyle = 'rgba(' + _.options.color.r + ', ' + _.options.color.g + ', ' + _.options.color.b + ', ' + (1.2 - n / _.options.minDistance) + ')';
+        _.context.strokeStyle = 'rgba(' + _.options.connectColor.r + ', ' + _.options.connectColor.g + ', ' + _.options.connectColor.b + ', ' + (1.2 - n / _.options.minDistance) + ')';
         _.context.moveTo(p1.x, p1.y);
         _.context.lineTo(p2.x, p2.y);
         _.context.stroke();
