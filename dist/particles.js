@@ -395,8 +395,6 @@ var Particles = (function(window, document) {
     _.vx = Math.random() * _.options.speed * 2 - _.options.speed;
     _.vy = Math.random() * _.options.speed * 2 - _.options.speed;
     _.radius = _.options.baseRadius * Math.ceil(Math.random() * _.options.sizeVariations);
-    console.log(_.radius);
-
     _._draw();
   };
 
