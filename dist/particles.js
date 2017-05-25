@@ -30,7 +30,9 @@ var Particles = (function(window, document) {
         speed: 0.5,
         color: '#000000',
         minDistance: 120,
-        connectParticles: false
+        connectParticles: false,
+        connectLineWidth: 1,
+        baseRadius: 1
       };
 
       _.element = null;
@@ -331,6 +333,7 @@ var Particles = (function(window, document) {
         _.context.strokeStyle = 'rgba(' + _.options.connectColor.r + ', ' + _.options.connectColor.g + ', ' + _.options.connectColor.b + ', ' + (1.2 - n / _.options.minDistance) + ')';
         _.context.moveTo(p1.x, p1.y);
         _.context.lineTo(p2.x, p2.y);
+        _.context.lineWidth = _.options.connectLineWidth;
         _.context.stroke();
         _.context.closePath();
       }
@@ -391,7 +394,8 @@ var Particles = (function(window, document) {
     }
     _.vx = Math.random() * _.options.speed * 2 - _.options.speed;
     _.vy = Math.random() * _.options.speed * 2 - _.options.speed;
-    _.radius = Math.random() * Math.random() * _.options.sizeVariations;
+    _.radius = _.options.baseRadius * Math.ceil(Math.random() * _.options.sizeVariations);
+    console.log(_.radius);
 
     _._draw();
   };
