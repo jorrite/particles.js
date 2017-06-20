@@ -32,7 +32,8 @@ var Particles = (function(window, document) {
         minDistance: 120,
         connectParticles: false,
         connectLineWidth: 1,
-        baseRadius: 1
+        baseRadius: 1,
+        redrawOnMobileResize: false
       };
 
       _.element = null;
@@ -112,8 +113,15 @@ var Particles = (function(window, document) {
    */
   Plugin.prototype._initializeEvents = function() {
     var _ = this;
-
-    window.addEventListener('resize', _._resize.bind(_), false);
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      if(redrawOnMobileResize){
+        window.addEventListener('resize', _._resize.bind(_), false);
+      } else {
+        window.addEventListener('orientationchange', _._resize.bind(_), false);
+      }
+    } else {
+      window.addEventListener('resize', _._resize.bind(_), false);
+    }
   };
 
   /**
